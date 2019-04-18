@@ -1,4 +1,6 @@
 import requests
+import os
+import settings
 
 class Parser():
     def __init__(self, input):
@@ -12,8 +14,8 @@ class Parser():
         #2+ args e.g. Feni / Feni nagrand / Feni nagrand-EU / Feni nagrand-EU hps / Feni hps
         if len(input.split(" ")) > 1:
             #role e.g. Feni hps
-            if input.split(" ")[1] in ["dps", "hps", "bossdps", "tankhps", "playerspeed"]:
-                self.role = input.split(" ")[1]
+            if input.split(" ")[1].lower() in ["dps", "hps", "bossdps", "tankhps", "playerspeed"]:
+                self.role = input.split(" ")[1].lower()
             else:
                 #two-part server name + region e.g. Spinlik defias-brotherhood-eu
                 if len(input.split(" ")[1].split("-")) > 2:
@@ -41,7 +43,7 @@ class Parser():
 
     def getParses(self, name, server, region, role, dict):
         print(f"Retrieving data for {self.name}-{self.server} {self.region} for {self.role}")
-        r = requests.get(f"https://www.warcraftlogs.com:443/v1/rankings/character/{self.name}/{self.server}/{self.region}?zone=21&metric={self.role}&api_key=e77e3ecb6ac0bcafe8a49c63dbe990e3")
+        r = requests.get(f"https://www.warcraftlogs.com:443/v1/rankings/character/{self.name}/{self.server}/{self.region}?zone=21&metric={self.role}&api_key={settings.WARCRAFTLOGS_API_KEY}")
         if r.status_code != requests.codes.ok:
             print("Unable to find parses for the data provided")
             return None
