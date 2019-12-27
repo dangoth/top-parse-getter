@@ -49,7 +49,6 @@ class Parser():
             return None
         print("Data retrieved")
 
-        #can't be arsed using collections.defaultdict lel
         for i in r.json():
             name = i["encounterName"]
             if name not in self.parse_dict.keys():
